@@ -1,6 +1,37 @@
-import Service from "./cal-module.js"
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
+// const mongoose = require('mongoose');
 
-var _service = new Service("Yêu Thưn thưn <3")
+// mongoose.connect(process.env.MONGODB_URI || 'mongodb://192.168.99.100:27017/zalo', { useMongoClient: true }, (err) => {
+//     if (err) throw err;
+// });
 
-var name = _service.helloWorld()
-console.log(name)
+const PORT = process.env.PORT || 8080;
+const whitelist = process.env.WHITELIST ? process.env.WHITELIST.split(',') : true;
+const corsOptions = {
+    origin: Array.isArray(whitelist) ? ((origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }) : true
+};
+app.use(cors(corsOptions));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json({
+    type: '*/*'
+}));
+
+app.use(express.static('public'))
+/* Routes */
+app.use('/', require('./controller'));
+
+app.listen(PORT);
+console.log('Server is runing on port: ' + PORT);
+module.exports = app;
+
