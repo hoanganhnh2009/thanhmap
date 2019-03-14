@@ -1,0 +1,7 @@
+body{
+    background: 'red'
+}
+#map {
+    height: 800px;
+    width: 100%;
+}
