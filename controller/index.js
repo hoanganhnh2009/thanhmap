@@ -3,7 +3,7 @@ const path = require('path');
 // const Location = require('./location');
 router.route('/')
     .get((req, res) => {
-        res.sendFile(path.join(__dirname, 'asset', 'index.html'));
+        res.sendFile("index.html", {"root": __dirname});
     });
 
 // router.route('/api/locations')
